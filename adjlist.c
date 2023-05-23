@@ -1,114 +1,93 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define MAX 100
-struct node 
+struct node
 {
-       int vertex;
-       struct node* next;
-}*nw1,*nw2,*temp;
+    int vertex;
+    struct node *next;
+} *newnode1, *newnode2, *temp;
+struct node *adj[MAX];
+int vert;
+void addedge(int v1, int v2)
+{
+    newnode1 = (struct node *)malloc(sizeof(struct node));
+    newnode1->vertex = v2;
+    newnode1->next = adj[v1];
+    adj[v1] = newnode1;
 
-struct node * adj[MAX];
-int vert,in[MAX],out[MAX]; 
-void addedge(int v1,int v2)
-{
-     nw1 = (struct node * )malloc(sizeof(struct node));
-     nw1->vertex = v2;
-     nw1->next = adj[v1];
-     adj[v1]=nw1;
-     
-     //nw2= (struct node * )malloc(sizeof(struct node));
-     //nw2->vertex = v1;
-     //nw2->next = adj[v2];
-     //adj[v2]=nw2;
-     
+    // newnode2 = (struct node *)malloc(sizeof(struct node));
+    // newnode2->vertex = v1;
+    // newnode2->next = adj[v2];
+    // adj[v2] = newnode2;
 }
 
-
-void display()
+void displaylist()
 {
-     int i,count[10]={0};
-     printf("Adjacency List:\n");
-     for(i=1;i<=vert;i++)
-     {
-        printf("%d:->",i);
-        struct node* curr = adj[i];
-        while(curr!=NULL)
+    int i, count[10] = {0};
+    printf("Adjacency list:\n");
+    for (i = 1; i <= vert; i++)
+    {
+        printf("%d : --> ", i);
+        struct node *curr = adj[i];
+        while (curr != NULL)
         {
-             printf("%d-->",curr->vertex);
-             curr=curr->next;
-             count[i]++;
+            printf("%d--> ", curr->vertex);
+            curr = curr->next;
+            count[i]++;
         }
-        printf("NULL:(count : %d)\n",count[i]);
-     }
+        printf("NULL  : %d\n", count[i]);
+    }
 }
 
-void degree(struct node **adj,int vert)
+void degree(struct node **adj, int vert)
 {
-     int i,j;
-     
-
-     printf("\nVertex InDegree OutDegree TotalDegree");
-     /*for(i=1;i<=vert;i++)
-     {
-        in = 0;
-        out = 0;
+    int i, j;
+    printf("\nVertex in_Degree Out_Degree Total_Dgree ::\n");
+    for (i = 1; i <= vert; i++)
+    {
+        int in = {0};
+        int out = {0};
         temp = adj[i];
-        while(temp)
+        while (temp)
         {
-              out++;
-              temp = temp->next;
-        }*/
-        for(i=1;i<=vert;i++)
+            out++;
+            temp = temp->next;
+        }
+        for (j = 1; j <= vert; j++)
         {
-           for(temp=adj[i];temp!=NULL;temp=temp->next)
-           {
-               out[i]++;
-               in[temp->vertex]++;
-           }
-                
-           
-        }        
-       /* for(j=1;j<=vert;j++)
-        {
-           temp = adj[j];
-           while(temp)
-           {
-                if(temp->vertex==i)
+            temp = adj[j];
+            while (temp)
+            {
+                if (temp->vertex == i)
                 {
-                  in++;
+                    in++;
                 }
                 temp = temp->next;
-           }          
+            }
         }
-        */
-        
-     for(i=1;i<=vert;i++)
-     printf("\n   %d       %d        %d         %d",i,in[i],out[i],in[i]+out[i]);
-     printf("\n");                
+        printf("    %d        %d        %d       %d", i, in, out, in + out);
+        printf("\n");
+    }
 }
+
 void main()
-{   
-     int e,i,v1,v2;
-     //nw1 = malloc(sizeof(struct node));
-     printf("Enter the no. of vertices for directed Graph : ");
-     scanf("%d",&vert);
-     printf("Enter the no. of Edge for directed Graph : ");
-     scanf("%d",&e);
-     for(i=0;i<vert;i++)
-     {
-        adj[i] = NULL;
-        in[i] = 0;
-        out[i]=0;
-     }
-     for(i=0;i<e;i++)
-     {
-        printf("Enter the edge %d (v1 v2):",i+1);
-        scanf("%d %d",&v1,&v2);
-        addedge(v1,v2);
-     }
-     
-     display();
-     degree(adj,vert);
-}     
-      
-  
+{
+    int e, i, v1, v2;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vert);
+
+    printf("Enter the number of edges: ");
+    scanf("%d", &e);
+
+    for (i = 1; i <= e; i++)
+    {
+        printf("Enter edge %d : (v1,v2) : ", i);
+        scanf("%d%d", &v1, &v2);
+        addedge(v1, v2);
+    }
+    displaylist();
+ degree(adj,vert);
+
+    // degree(adj,vert);
+}
